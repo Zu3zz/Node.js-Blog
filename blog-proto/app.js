@@ -4,6 +4,11 @@ const handleUserRouter = require('./src/router/user')
 const serverHandler = (req, res) => {
   // 设置返回格式
   res.setHeader('Content-type', 'application/json')
+
+  // 获取path
+  const url = req.url
+  req.path = url.split('?')[0]
+
   // 处理blog路由
   const blogData = handleBlogRouter(req, res)
   if (blogData) {
