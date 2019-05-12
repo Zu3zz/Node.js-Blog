@@ -1,0 +1,14 @@
+{
+  "name": "blog-proto",
+  "version": "1.0.0",
+  "main": "www.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js",
+    "prd": "cross-env NODE_ENV=production nodemon ./bin/www.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.19.0"
+  }
+}
