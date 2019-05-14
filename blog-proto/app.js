@@ -6,11 +6,11 @@ const handleUserRouter = require('./src/router/user')
 const getPostData = req => {
   const promise = new Promise((resolve, reject) => {
     if (req.method !== 'POST') {
-      resolve({err: '1'})
+      resolve({err: 'method'})
       return
     }
     if (req.headers['content-type'] !== 'application/json') {
-      resolve({err: '2'})
+      resolve({err: 'headers'})
       return
     }
     let postData = ''
@@ -19,7 +19,7 @@ const getPostData = req => {
     })
     req.on('end', () => {
       if (!postData) {
-        resolve({err: '3'})
+        resolve({err: 'nodata'})
         return
       }
       resolve(JSON.parse(postData))
@@ -42,7 +42,6 @@ const serverHandler = (req, res) => {
   // 处理postdata
   getPostData(req).then(postData => {
     req.body = postData
-    console.log('req.body is:', req.body)
 
     // 处理blog路由
     const blogData = handleBlogRouter(req, res)
