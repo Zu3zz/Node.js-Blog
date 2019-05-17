@@ -6,11 +6,15 @@ const handleUserRouter = require('./src/router/user')
 const getPostData = req => {
   const promise = new Promise((resolve, reject) => {
     if (req.method !== 'POST') {
-      resolve({err: 'method'})
+      resolve({
+        err: 'method'
+      })
       return
     }
     if (req.headers['content-type'] !== 'application/json') {
-      resolve({err: 'headers'})
+      resolve({
+        err: 'headers'
+      })
       return
     }
     let postData = ''
@@ -19,7 +23,9 @@ const getPostData = req => {
     })
     req.on('end', () => {
       if (!postData) {
-        resolve({err: 'nodata'})
+        resolve({
+          err: 'nodata'
+        })
         return
       }
       resolve(JSON.parse(postData))
@@ -44,9 +50,18 @@ const serverHandler = (req, res) => {
     req.body = postData
 
     // 处理blog路由
-    const blogData = handleBlogRouter(req, res)
-    if (blogData) {
-      res.end(JSON.stringify(blogData))
+    // const blogData = handleBlogRouter(req, res)
+    // if (blogData) {
+    //   res.end(JSON.stringify(blogData))
+    //   return
+    // }
+    const blogResult = handleBlogRouter(req, res)
+    if (blogResult) {
+      blogResult.then(blogData => {
+        res.end(
+          JSON.stringify(blogData)
+        )
+      })
       return
     }
 
@@ -57,7 +72,9 @@ const serverHandler = (req, res) => {
       return
     }
     // 未命中路由则返回404
-    res.writeHead(404, { 'Content-type': 'text/plain' })
+    res.writeHead(404, {
+      'Content-type': 'text/plain'
+    })
     res.write('404 not found\n')
     res.end()
   })
