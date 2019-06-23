@@ -1,3 +1,4 @@
+const xss = require('xss')
 const {
   exec
 } = require('../db/mysql')
@@ -25,9 +26,9 @@ const getDetail = (id) => {
 
 const newBlog = (blogData = {}) => {
   // blogData是一个博客对象 包含 title content author 属性
-  const title = blogData.title
-  const content = blogData.content
-  const author = blogData.author
+  const title = xss(blogData.title)
+  const content = xss(blogData.content)
+  const author = xss(blogData.author)
   const createtime = Date.now()
 
   const sql = `
@@ -45,8 +46,8 @@ const newBlog = (blogData = {}) => {
 const updataBlog = (id, blogData = {}) => {
   // id 就是要更新的博客的 id
   // blogData是一个博客对象 包含 title content 属性
-  const title = blogData.title
-  const content = blogData.content
+  const title = xss(blogData.title)
+  const content = xss(blogData.content)
 
   const sql = `
     update blogs set title='${title}', content='${content}' where id=${id}
